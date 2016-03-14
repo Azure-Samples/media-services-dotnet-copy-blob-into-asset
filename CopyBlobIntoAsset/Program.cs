@@ -134,13 +134,18 @@ namespace ConsoleApplication1
             {
                 var assetFile = asset.AssetFiles.Create((sourceBlob as ICloudBlob).Name);
                 CopyBlob(sourceBlob as ICloudBlob, assetContainer);
+                assetFile.ContentFileSize = (sourceBlob as ICloudBlob).Properties.Length;
+                assetFile.Update();
             }
+
+            asset.Update();
 
             destinationLocator.Delete();
             writePolicy.Delete();
 
             // Since we copied a set of Smooth Streaming files, 
             // set the .ism file to be the primary file. 
+            // If we, for example, copied an .mp4, then the mp4 would be the primary file. 
             SetISMFileAsPrimary(asset);
 
             return asset;
@@ -190,58 +195,42 @@ namespace ConsoleApplication1
             }
             else
             {
-                try
+
+                // Display the size of the source blob.
+                Console.WriteLine(sourceBlob.Properties.Length);
+
+                Console.WriteLine(string.Format("Copy blob '{0}' to '{1}'", sourceBlob.Uri, destinationBlob.Uri));
+                destinationBlob.StartCopyFromBlob(new Uri(sourceBlob.Uri.AbsoluteUri + signature));
+
+                while (true)
                 {
-                    // Display the size of the source blob.
-                    Console.WriteLine(sourceBlob.Properties.Length);
-
-                    Console.WriteLine(string.Format("Copy blob '{0}' to '{1}'", sourceBlob.Uri, destinationBlob.Uri));
-                    destinationBlob.StartCopyFromBlob(new Uri(sourceBlob.Uri.AbsoluteUri + signature));
-
-                    while (true)
+                    // The StartCopyFromBlob is an async operation, 
+                    // so we want to check if the copy operation is completed before proceeding. 
+                    // To do that, we call FetchAttributes on the blob and check the CopyStatus. 
+                    destinationBlob.FetchAttributes();
+                    if (destinationBlob.CopyState.Status != CopyStatus.Pending)
                     {
-                        // The StartCopyFromBlob is an async operation, 
-                        // so we want to check if the copy operation is completed before proceeding. 
-                        // To do that, we call FetchAttributes on the blob and check the CopyStatus. 
-                        destinationBlob.FetchAttributes();
-                        if (destinationBlob.CopyState.Status != CopyStatus.Pending)
-                        {
-                            break;
-                        }
-                        //It's still not completed. So wait for some time.
-                        System.Threading.Thread.Sleep(1000);
+                        break;
                     }
-
-                    while (true)
-                    {
-                        // The StartCopyFromBlob is an async operation, 
-                        // so we want to check if the copy operation is completed before proceeding. 
-                        // To do that, we call FetchAttributes on the blob and check the CopyStatus. 
-                        destinationBlob.FetchAttributes();
-                        if (destinationBlob.CopyState.Status != CopyStatus.Pending)
-                        {
-                            break;
-                        }
-                        //It's still not completed. So wait for some time.
-                        System.Threading.Thread.Sleep(1000);
-                    }
-
-                    // Display the size of the destination blob.
-                    Console.WriteLine(destinationBlob.Properties.Length);
-
+                    //It's still not completed. So wait for some time.
+                    System.Threading.Thread.Sleep(1000);
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(string.Format("Error copying blob '{0}': {1}", sourceBlob.Name, ex.Message));
-                }
+
+
+                // Display the size of the destination blob.
+                Console.WriteLine(destinationBlob.Properties.Length);
+
             }
         }
+
         /// <summary>
         /// Sets a file with the .ism extension as a primary file.
         /// </summary>
         /// <param name="asset">The asset that contains the smooth streaming files.</param>
         static private void SetISMFileAsPrimary(IAsset asset)
         {
+
+            //If you expect the asset to contain the .ism asset file, set the .ism file as the primary file.
             var ismAssetFiles = asset.AssetFiles.ToList().
                 Where(f => f.Name.EndsWith(".ism", StringComparison.OrdinalIgnoreCase)).ToArray();
 
