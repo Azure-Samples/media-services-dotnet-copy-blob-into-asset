@@ -4,10 +4,9 @@ platforms: dotnet
 author: Juliako
 ---
 
-# Copy blob into an Azure Media Services asset using .NET SDK
+# Copy blob into an Azure Media Services asset using .NET SDK Extensions
 
 This sample shows how to copy existing blobs from a storage account into a new Azure Media Services asset.
-
 
 ## Prerequisites
 * Two Media Services accounts in a new or existing Azure subscription. See the topic [How to Create a Media Services Account](media-services-portal-create-account.md).
@@ -19,7 +18,6 @@ This sample shows how to copy existing blobs from a storage account into a new A
 
 1. Use [NuGet](https://www.nuget.org/packages/windowsazure.mediaservices.extensions) to install and add Azure Media Services .NET SDK Extensions (windowsazure.mediaservices.extensions). Installing this package, also installs Media Services .NET SDK and adds all other required dependencies.
 	
-	[Install-Package windowsazure.mediaservices](https://www.nuget.org/packages/windowsazure.mediaservices).
 2. Add the appSettings section to the app.config file, and set the values for your Media Services account name and account key.
 		
 		<appSettings>
