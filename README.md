@@ -4,7 +4,7 @@ platforms: dotnet
 author: Juliako
 ---
 
-# Copy blob into an Azure Media Services asset 
+# Copy blobs into an Azure Media Services asset 
 
 This sample shows how to copy existing blobs from a storage account into a new Azure Media Services asset.
 
