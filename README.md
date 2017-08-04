@@ -18,6 +18,30 @@ The sample shows two ways to copy blobs into assets:
 1. Download the solution.
 2. Clean the solution.
 3. Rebuild the solution.
+4. Update the values of elemens in the appSettings section of the app.config file. For more information, see [Access the Azure Media Services API with Azure AD authentication](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).
+
+```
+  <appSettings>
+    <!--Used by "copy blobs between two AMS accounts" code. -->
+    <add key="AMSSourceAADTenantDomain" value="AADTenantDomain"/>
+    <add key="AMSSourceRESTAPIEndpoint" value="RESTAPIEndpoint"/>
+    <add key="AMSDestAADTenantDomain" value="AADTenantDomain"/>
+    <add key="AMSDestRESTAPIEndpoint" value="RESTAPIEndpoint"/>
+    <add key="DestStorageAccountName" value="name"/>
+    <add key="DestStorageAccountKey" value="key"/>
+    <add key="SourceAssetID" value="nb:cid:UUID:assetID"/>
+
+    <!-- Used by "copy blobs from a storage account into an AMS account" code. -->
+    <add key="SourceStorageAccountName" value="name" />
+    <add key="SourceStorageAccountKey" value="key" />
+    <add key="AMSAADTenantDomain" value="tenant"/>
+    <add key="AMSESTAPIEndpoint" value="endpoint"/>
+    <add key="AMSStorageAccountName" value="name" />
+    <add key="AMSStorageAccountKey" value="key" />
+    
+  </appSettings>
+  
+```
 
 ## About the code
 
