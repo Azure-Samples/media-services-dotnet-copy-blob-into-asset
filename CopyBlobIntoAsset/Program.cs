@@ -151,7 +151,8 @@ namespace CopyExistingBlobsIntoAsset
                 ICloudBlob destinationBlob = destAssetContainer.GetBlockBlobReference(assetFile.Name);
 
                 CopyBlob(sourceBlob as ICloudBlob, destAssetContainer);
-
+                
+                sourceBlob.FetchAttributes();
                 assetFile.ContentFileSize = (sourceBlob as ICloudBlob).Properties.Length;
                 assetFile.Update();
                 Console.WriteLine("File {0} is of {1} size", assetFile.Name, assetFile.ContentFileSize);
