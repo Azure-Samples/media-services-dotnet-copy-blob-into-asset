@@ -193,7 +193,7 @@ namespace CopyExistingBlobsIntoAsset
                 SharedAccessExpiryTime = DateTime.UtcNow.AddHours(24)
             });
 
-            ICloudBlob destinationBlob = destinationContainer.GetBlockBlobReference(sourceBlob.Name);
+            var destinationBlob = destinationContainer.GetBlockBlobReference(sourceBlob.Name);
 
             if (destinationBlob.Exists())
             {
@@ -206,7 +206,7 @@ namespace CopyExistingBlobsIntoAsset
                 Console.WriteLine(sourceBlob.Properties.Length);
 
                 Console.WriteLine(string.Format("Copy blob '{0}' to '{1}'", sourceBlob.Uri, destinationBlob.Uri));
-                destinationBlob.StartCopyFromBlob(new Uri(sourceBlob.Uri.AbsoluteUri + signature));
+                destinationBlob.StartCopy(new Uri(sourceBlob.Uri.AbsoluteUri + signature));
 
                 while (true)
                 {
