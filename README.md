@@ -13,9 +13,16 @@ The sample shows two ways to copy blobs into assets:
 * Copy blobs from an asset in one AMS account into a new asset in another AMS account.
 * Copy blobs from some storage account into a new asset in an AMS account.
 
+The code sample in this repo shows how to connect using two authentication methods: a **User** (interactive)  authentication method and **Service principal** authentication method. 
+
+>[!Note]
+> **Interactive** authentication method is NOT suitable for server, web services, APIs type of applications. For these types of applications, use **Service principal** authentication method. For more information, see [Access the AMS API with Azure AD authentication](media-services-use-aad-auth-to-access-ams-api.md).
+  
+
 ## Running this sample
 
-**NOTE**: Make sure you have the latest Azure Media Services .NET SDK https://www.nuget.org/packages/windowsazure.mediaservices
+>[!Note] 
+> Make sure you have the latest Azure Media Services .NET SDK Install-Package windowsazure.mediaservices.extensions -Version 4.1.0.1 
 
 1. Download the solution.
 2. Clean the solution.
@@ -25,14 +32,19 @@ The sample shows two ways to copy blobs into assets:
 ```
   <appSettings>
     <!--Used by "copy blobs between two AMS accounts" code. -->
-    <add key="AMSSourceAADTenantDomain" value="AADTenantDomain"/>
-    <add key="AMSSourceRESTAPIEndpoint" value="RESTAPIEndpoint"/>
-    <add key="AMSDestAADTenantDomain" value="AADTenantDomain"/>
-    <add key="AMSDestRESTAPIEndpoint" value="RESTAPIEndpoint"/>
-    <add key="DestStorageAccountName" value="name"/>
-    <add key="DestStorageAccountKey" value="key"/>
-    <add key="SourceAssetID" value="nb:cid:UUID:assetID"/>
+    <add key="AMSSourceAADTenantDomain" value="AMSSourceAADTenantDomain"/>
+    <add key="AMSSourceRESTAPIEndpoint" value="AMSSourceRESTAPIEndpoint"/>
+    <add key="SourceAMSClientId" value="SourceAMSClientId"/>
+    <add key="SourceAMSClientSecret" value="SourceAMSClientSecret"/>
+    <add key="SourceAssetID" value="nb:cid:UUID:6dd1aaa0-5787-4a2a-9263-7bab9318bf49"/>
 
+    <add key="AMSDestAADTenantDomain" value="AMSDestAADTenantDomain"/>
+    <add key="AMSDestRESTAPIEndpoint" value="AMSDestRESTAPIEndpoint"/>
+    <add key="DestAMSClientId" value="DestAMSClientId"/>
+    <add key="DestAMSClientSecret" value="DestAMSClientSecret"/>
+    <add key="DestStorageAccountName" value="DestStorageAccountName"/>
+    <add key="DestStorageAccountKey" value="DestStorageAccountKey"/>
+    
     <!-- Used by "copy blobs from a storage account into an AMS account" code. -->
     <add key="SourceStorageAccountName" value="name" />
     <add key="SourceStorageAccountKey" value="key" />
@@ -42,7 +54,6 @@ The sample shows two ways to copy blobs into assets:
     <add key="AMSStorageAccountKey" value="key" />
     
   </appSettings>
-  
 ```
 
 ## About the code

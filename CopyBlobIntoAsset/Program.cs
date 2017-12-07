@@ -28,8 +28,16 @@ namespace CopyExistingBlobsIntoAsset
         static string _sourceAssetID = 
             ConfigurationManager.AppSettings["SourceAssetID"];
 
+        static string _sourceClientId = ConfigurationManager.AppSettings["SourceAMSClientId"];
+        static string _sourceClientSecret = ConfigurationManager.AppSettings["SourceAMSClientSecret"];
+
+        static string _destClientId = ConfigurationManager.AppSettings["DestAMSClientId"];
+        static string _destClientSecret = ConfigurationManager.AppSettings["DestAMSClientSecret"];
+
         private static CloudMediaContext _sourceContext = null;
         private static CloudMediaContext _destContext = null;
+
+
         //
         //--------------------------------
         // Used by "copy blobs from a storage account into an AMS account" code.
@@ -55,15 +63,21 @@ namespace CopyExistingBlobsIntoAsset
 
         static void Main(string[] args)
         {
-           // CopyBlobsBetweenAMSAccounts();
-            CopyBlobsFromStorageAccountIntoAMSAccount();
+            CopyBlobsBetweenAMSAccounts();
+           // CopyBlobsFromStorageAccountIntoAMSAccount();
         }
 
         static public void CopyBlobsBetweenAMSAccounts()
         {
-            var tokenCredentials1 = new AzureAdTokenCredentials(_sourceAADTenantDomain, AzureEnvironments.AzureCloudEnvironment);
+            AzureAdTokenCredentials tokenCredentials1 = new AzureAdTokenCredentials(_sourceAADTenantDomain,
+                   new AzureAdClientSymmetricKey(_sourceClientId, _sourceClientSecret),
+                   AzureEnvironments.AzureCloudEnvironment);
+
+            AzureAdTokenCredentials tokenCredentials2 = new AzureAdTokenCredentials(_destAADTenantDomain,
+                   new AzureAdClientSymmetricKey(_destClientId, _destClientSecret),
+                   AzureEnvironments.AzureCloudEnvironment);
+
             var tokenProvider1 = new AzureAdTokenProvider(tokenCredentials1);
-            var tokenCredentials2 = new AzureAdTokenCredentials(_destAADTenantDomain, AzureEnvironments.AzureCloudEnvironment);
             var tokenProvider2 = new AzureAdTokenProvider(tokenCredentials2);
 
             // Create the context for your source Media Services account.
@@ -77,7 +91,7 @@ namespace CopyExistingBlobsIntoAsset
                 new StorageCredentials(_destStorageAccountName, _destStorageAccountKey);
 
             // Get a reference to the source asset in the source context.
-            IAsset sourceAsset = _sourceContext.Assets.Where(a => a.Id == _sourceAssetID).First();
+            IAsset sourceAsset = _sourceContext.Assets.Where(asset => asset.Id == _sourceAssetID).First();
 
             // Create an empty destination asset in the destination context.
             IAsset destinationAsset = _destContext.Assets.Create(sourceAsset.Name, AssetCreationOptions.None);
@@ -144,13 +158,13 @@ namespace CopyExistingBlobsIntoAsset
 
             var blobList = sourceBlobContainer.ListBlobs();
 
-            foreach (var sourceBlob in blobList)
+            foreach (CloudBlockBlob sourceBlob in blobList)
             {
                 var assetFile = asset.AssetFiles.Create((sourceBlob as ICloudBlob).Name);
 
                 ICloudBlob destinationBlob = destAssetContainer.GetBlockBlobReference(assetFile.Name);
 
-                CopyBlob(sourceBlob as ICloudBlob, destAssetContainer);
+                CopyBlob(sourceBlob, destAssetContainer);
                 
                 sourceBlob.FetchAttributes();
                 assetFile.ContentFileSize = (sourceBlob as ICloudBlob).Properties.Length;
