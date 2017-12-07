@@ -15,7 +15,7 @@ The sample shows two ways to copy blobs into assets:
 
 ## Running this sample
 
->[!NOTE] Make sure you have the latest Azure Media Services .NET SDK https://www.nuget.org/packages/windowsazure.mediaservices
+**NOTE**: Make sure you have the latest Azure Media Services .NET SDK https://www.nuget.org/packages/windowsazure.mediaservices
 
 1. Download the solution.
 2. Clean the solution.
