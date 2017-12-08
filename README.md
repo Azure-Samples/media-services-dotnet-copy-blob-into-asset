@@ -15,14 +15,12 @@ The sample shows two ways to copy blobs into assets:
 
 The code sample in this repo shows how to connect using two authentication methods:  A **User** (interactive) authentication method and **Service principal** authentication method. 
 
-> [!Note]
-> The **User** authentication method is NOT suitable for server, web services, APIs type of applications. For these types of applications, use **Service principal** authentication method. For more information, see [Access the AMS API with Azure AD authentication](media-services-use-aad-auth-to-access-ams-api.md).
+**NOTE** The **User** authentication method is NOT suitable for server, web services, APIs type of applications. For these types of applications, use **Service principal** authentication method. For more information, see [Access the AMS API with Azure AD authentication](media-services-use-aad-auth-to-access-ams-api.md).
   
 
 ## Running this sample
 
-> [!Note] 
-> Make sure you use the latest [Azure Media Services .NET SDK](https://www.nuget.org/packages/windowsazure.mediaservices.extensions).
+**NOTE** Make sure you use the latest [Azure Media Services .NET SDK](https://www.nuget.org/packages/windowsazure.mediaservices.extensions).
 
 1. Download the solution.
 2. Clean the solution.
