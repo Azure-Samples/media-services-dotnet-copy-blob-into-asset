@@ -17,10 +17,20 @@ namespace CopyExistingBlobsIntoAsset
             ConfigurationManager.AppSettings["AMSSourceAADTenantDomain"];
         static string _sourceRESTAPIEndpoint = 
             ConfigurationManager.AppSettings["AMSSourceRESTAPIEndpoint"];
+        static string _sourceClientId = 
+            ConfigurationManager.AppSettings["SourceAMSClientId"];
+        static string _sourceClientSecret = 
+            ConfigurationManager.AppSettings["SourceAMSClientSecret"];
+
         static string _destAADTenantDomain = 
             ConfigurationManager.AppSettings["AMSDestAADTenantDomain"];
         static string _destRESTAPIEndpoint = 
             ConfigurationManager.AppSettings["AMSDestRESTAPIEndpoint"];
+        static string _destClientId = 
+            ConfigurationManager.AppSettings["DestAMSClientId"];
+        static string _destClientSecret = 
+            ConfigurationManager.AppSettings["DestAMSClientSecret"];
+
         static string _destStorageAccountName = 
             ConfigurationManager.AppSettings["DestStorageAccountName"];
         static string _destStorageAccountKey = 
@@ -28,32 +38,32 @@ namespace CopyExistingBlobsIntoAsset
         static string _sourceAssetID = 
             ConfigurationManager.AppSettings["SourceAssetID"];
 
-        static string _sourceClientId = ConfigurationManager.AppSettings["SourceAMSClientId"];
-        static string _sourceClientSecret = ConfigurationManager.AppSettings["SourceAMSClientSecret"];
-
-        static string _destClientId = ConfigurationManager.AppSettings["DestAMSClientId"];
-        static string _destClientSecret = ConfigurationManager.AppSettings["DestAMSClientSecret"];
-
         private static CloudMediaContext _sourceContext = null;
         private static CloudMediaContext _destContext = null;
-
 
         //
         //--------------------------------
         // Used by "copy blobs from a storage account into an AMS account" code.
         // CopyBlobsFromStorageAccountIntoAMSAccount()
-        private static readonly string _AMSAADTenantDomain =
-            ConfigurationManager.AppSettings["AMSAADTenantDomain"];
-        private static readonly string _AMSRESTAPIEndpoint =
-            ConfigurationManager.AppSettings["AMSESTAPIEndpoint"];
-        private static readonly string _AMSStorageAccountName =
-            ConfigurationManager.AppSettings["AMSStorageAccountName"];
-        private static readonly string _AMSStorageAccountKey =
-            ConfigurationManager.AppSettings["AMSStorageAccountKey"];
         private static readonly string _sourceStorageAccountName =
             ConfigurationManager.AppSettings["SourceStorageAccountName"];
         private static readonly string _sourceStorageAccountKey =
             ConfigurationManager.AppSettings["SourceStorageAccountKey"];
+        private static readonly string _NameOfBlobContainerYouWantToCopy =
+            ConfigurationManager.AppSettings["NameOfBlobContainerYouWantToCopy"];
+
+        private static readonly string _AMSAADTenantDomain =
+            ConfigurationManager.AppSettings["AMSAADTenantDomain"];
+        private static readonly string _AMSRESTAPIEndpoint =
+            ConfigurationManager.AppSettings["AMSRESTAPIEndpoint"];
+        private static readonly string _AMSClientId =
+            ConfigurationManager.AppSettings["AMSClientId"];
+        private static readonly string _AMSClientSecret =
+            ConfigurationManager.AppSettings["AMSClientSecret"];
+        private static readonly string _AMSStorageAccountName =
+            ConfigurationManager.AppSettings["AMSStorageAccountName"];
+        private static readonly string _AMSStorageAccountKey =
+            ConfigurationManager.AppSettings["AMSStorageAccountKey"];
 
         // Field for service context.
         private static CloudMediaContext _context = null;
@@ -63,8 +73,8 @@ namespace CopyExistingBlobsIntoAsset
 
         static void Main(string[] args)
         {
-            CopyBlobsBetweenAMSAccounts();
-           // CopyBlobsFromStorageAccountIntoAMSAccount();
+         //   CopyBlobsBetweenAMSAccounts();
+            CopyBlobsFromStorageAccountIntoAMSAccount();
         }
 
         static public void CopyBlobsBetweenAMSAccounts()
@@ -123,7 +133,7 @@ namespace CopyExistingBlobsIntoAsset
             CloudBlobClient sourceCloudBlobClient =
                 _sourceStorageAccount.CreateCloudBlobClient();
             CloudBlobContainer sourceContainer =
-                sourceCloudBlobClient.GetContainerReference("NameOfBlobContainerYouWantToCopy");
+                sourceCloudBlobClient.GetContainerReference(_NameOfBlobContainerYouWantToCopy);
 
             CreateAssetFromExistingBlobs(sourceContainer);
 

@@ -27,38 +27,48 @@ The code sample in this repo shows how to connect using two authentication metho
 1. Download the solution.
 2. Clean the solution.
 3. Rebuild the solution.
-4. Update the values of elemens in the appSettings section of the app.config file. For more information, see [Access the Azure Media Services API with Azure AD authentication](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).
+4. Update the values of elements in the appSettings section of the app.config file. For more information, see [Access the Azure Media Services API with Azure AD authentication](https://docs.microsoft.com/azure/media-services/media-services-use-aad-auth-to-access-ams-api).
 
-```
-  <appSettings>
+``` 
+ <appSettings>
     <!--Used by "copy blobs between two AMS accounts" code. -->
-    <add key="AMSSourceAADTenantDomain" value="AMSSourceAADTenantDomain"/>
-    <add key="AMSSourceRESTAPIEndpoint" value="AMSSourceRESTAPIEndpoint"/>
-    <add key="SourceAMSClientId" value="SourceAMSClientId"/>
-    <add key="SourceAMSClientSecret" value="SourceAMSClientSecret"/>
+    
+    <add key="AMSSourceAADTenantDomain" value="tenant"/>
+    <add key="AMSSourceRESTAPIEndpoint" value="endpoint"/>
+
+    <add key="SourceAMSClientId" value="clientID"/>
+    <add key="SourceAMSClientSecret" value="clientSecret"/>
+
     <add key="SourceAssetID" value="nb:cid:UUID:6dd1aaa0-5787-4a2a-9263-7bab9318bf49"/>
 
-    <add key="AMSDestAADTenantDomain" value="AMSDestAADTenantDomain"/>
-    <add key="AMSDestRESTAPIEndpoint" value="AMSDestRESTAPIEndpoint"/>
-    <add key="DestAMSClientId" value="DestAMSClientId"/>
-    <add key="DestAMSClientSecret" value="DestAMSClientSecret"/>
-    <add key="DestStorageAccountName" value="DestStorageAccountName"/>
-    <add key="DestStorageAccountKey" value="DestStorageAccountKey"/>
-    
+    <add key="AMSDestAADTenantDomain" value="tenant"/>
+    <add key="AMSDestRESTAPIEndpoint" value="endpoint"/>
+
+    <add key="DestAMSClientId" value="clientID"/>
+    <add key="DestAMSClientSecret" value="clientSecret"/>
+
+    <add key="DestStorageAccountName" value="name"/>
+    <add key="DestStorageAccountKey" value="key"/>
+
     <!-- Used by "copy blobs from a storage account into an AMS account" code. -->
+    
     <add key="SourceStorageAccountName" value="name" />
     <add key="SourceStorageAccountKey" value="key" />
+    <add key="NameOfBlobContainerYouWantToCopy" value="BlobContainerName"/>
+    
     <add key="AMSAADTenantDomain" value="tenant"/>
-    <add key="AMSESTAPIEndpoint" value="endpoint"/>
-    <add key="AMSStorageAccountName" value="name" />
-    <add key="AMSStorageAccountKey" value="key" />
+    <add key="AMSRESTAPIEndpoint" value="endpoint"/>
+    <add key="AMSClientId" value="clientID"/>
+    <add key="AMSClientSecret" value="clientSecret"/>
+    <add key="AMSStorageAccountName" value="name"/>
+    <add key="AMSStorageAccountKey" value="key"/>
     
   </appSettings>
 ```
 
 ## About the code
 
-You can find detailed information about this code in the [Copying an Existing Blob into a Media Services Asset](http://azure.microsoft.com/documentation/articles/media-services-copying-existing-blob/) topic.
+You can find detailed information about this code in the [Copying an Existing Blob into a Media Services Asset](http://azure.microsoft.com/documentation/articles/media-services-copying-existing-blob/) article.
 
 ## Use tools to copy blobs into assets
 
