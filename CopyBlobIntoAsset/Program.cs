@@ -115,8 +115,10 @@ namespace CopyExistingBlobsIntoAsset
 
         static public void CopyBlobsFromStorageAccountIntoAMSAccount()
         {
-            var tokenCredentials = new AzureAdTokenCredentials(_AMSAADTenantDomain,
-                AzureEnvironments.AzureCloudEnvironment);
+            AzureAdTokenCredentials tokenCredentials = new AzureAdTokenCredentials(_AMSAADTenantDomain,
+               new AzureAdClientSymmetricKey(_AMSClientId, _AMSClientSecret),
+               AzureEnvironments.AzureCloudEnvironment);
+            
             var tokenProvider = new AzureAdTokenProvider(tokenCredentials);
 
             // Create the context for your source Media Services account.
