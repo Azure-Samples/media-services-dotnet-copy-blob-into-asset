@@ -10,7 +10,13 @@ urlFragment: media-services-dotnet-copy-blob-into-asset
 
 # Copy blobs into an asset using Azure Media Services v2 
 
-This sample shows how to copy existing blobs from a storage account into a new Azure Media Services asset.
+## NOTE
+ 
+You can find the latest and most extensive Media Services v3 .NET samples in the [Azure Media Services v3](https://github.com/Azure-Samples/media-services-v3-dotnet) repository.
+
+## Overview
+
+This sample in this repo shows how to copy existing blobs from a storage account into a new Azure Media Services v2 asset.
 
 The sample shows two ways to copy blobs into assets:
 
